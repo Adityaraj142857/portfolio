@@ -4,7 +4,38 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/sprites/mushroom.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Mario-themed personal portfolio — Level Up Your Career!" />
+
+    <!-- ═══════════════════════════════════════════════
+         SEO — helps Google index your name + skills
+         ════════════════════════════════════════════ -->
+    <meta name="description"
+      content="Aditya Raj Shukla — AI Developer & ML Engineer. PGDBA at IIM Calcutta·IIT KGP·ISI. Portfolio featuring projects in LLMs, RAG, Cybersecurity and more." />
+    <meta name="keywords"
+      content="Aditya Raj Shukla, AI Developer, Machine Learning Engineer, PGDBA, IIM Calcutta, IIT Kharagpur, LLM, RAG, Cybersecurity, Python, Portfolio" />
+    <meta name="author" content="Aditya Raj Shukla" />
+
+    <!-- ═══════════════════════════════════════════════
+         OPEN GRAPH — LinkedIn / WhatsApp / Slack preview
+         ════════════════════════════════════════════ -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://adityarajshukla.vercel.app/" />
+    <meta property="og:title"       content="Aditya Raj Shukla — AI Developer Portfolio 🍄" />
+    <meta property="og:description" content="AI Developer & ML Engineer. PGDBA at IIM Calcutta · IIT KGP · ISI. Click to explore my Mario-themed interactive portfolio." />
+    <meta property="og:image"       content="https://adityarajshukla.vercel.app/sprites/mario-idle.png" />
+    <meta property="og:image:width"  content="64" />
+    <meta property="og:image:height" content="156" />
+    <meta property="og:site_name"   content="Aditya Raj Shukla Portfolio" />
+    <meta property="og:locale"      content="en_IN" />
+
+    <!-- ═══════════════════════════════════════════════
+         TWITTER CARD — Twitter / X preview
+         ════════════════════════════════════════════ -->
+    <meta name="twitter:card"        content="summary" />
+    <meta name="twitter:url"         content="https://adityarajshukla.vercel.app/" />
+    <meta name="twitter:title"       content="Aditya Raj Shukla — AI Developer Portfolio 🍄" />
+    <meta name="twitter:description" content="AI Developer & ML Engineer. PGDBA at IIM Calcutta · IIT KGP · ISI. Mario-themed interactive portfolio." />
+    <meta name="twitter:image"       content="https://adityarajshukla.vercel.app/sprites/mario-idle.png" />
+
     <title>🍄 ADITYA RAJ SHUKLA — Press Start!</title>
 
     <!-- Press Start 2P Pixel Font -->
@@ -16,20 +47,16 @@
     />
 
     <style>
-      /* Pixel-perfect rendering for all images */
       img { image-rendering: pixelated; image-rendering: crisp-edges; }
-      /* Base body — always visible, no font-gate */
       body {
-        margin: 0;
-        padding: 0;
+        margin: 0; padding: 0;
         background-color: #5C94FC;
         font-family: 'Press Start 2P', 'Courier New', monospace;
       }
-      /* Prevent text selection for game feel */
       * { user-select: none; -webkit-user-select: none; }
       p, h1, h2, h3, li { user-select: text; -webkit-user-select: text; }
-      /* Custom scrollbar */
-      ::-webkit-scrollbar { width: 12px; }
+      a, button { pointer-events: auto !important; cursor: pointer !important; }
+      ::-webkit-scrollbar       { width: 12px; }
       ::-webkit-scrollbar-track { background: #000; }
       ::-webkit-scrollbar-thumb { background: #E52521; border: 2px solid #000; }
       ::-webkit-scrollbar-thumb:hover { background: #FBD000; }

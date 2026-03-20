@@ -1,447 +1,357 @@
-# 🍄 Mario Portfolio — Complete Setup Guide
+# 🍄 Mario Portfolio — Aditya Raj Shukla
 
-> A fully interactive Super Mario Bros–themed personal portfolio.
-> Built with **React 18 + Vite + Tailwind CSS**.
+> A Super Mario Bros–themed interactive developer portfolio built with React 18 + Vite. Explore 6 worlds, collect coins, unlock achievements, and meet Mario along the way.
 
----
-
-## 📋 Table of Contents
-
-1. [Prerequisites](#prerequisites)
-2. [Project Setup](#project-setup)
-3. [Adding Your Assets](#adding-your-assets)
-4. [Personalise Your Data](#personalise-your-data)
-5. [Running Locally](#running-locally)
-6. [Building for Production](#building-for-production)
-7. [Deploying](#deploying)
-8. [Folder Structure](#folder-structure)
-9. [Interactive Features](#interactive-features)
-10. [Troubleshooting](#troubleshooting)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat&logo=react)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat&logo=vite)](https://vitejs.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?style=flat&logo=tailwindcss)](https://tailwindcss.com)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
-## 1. Prerequisites
+## 🎮 Live Demo
 
-Make sure you have these installed **before** starting:
-
-| Tool         | Minimum version | Check with         |
-|--------------|-----------------|--------------------|
-| Node.js      | 18.x or higher  | `node -v`          |
-| npm          | 9.x or higher   | `npm -v`           |
-| Git          | any             | `git --version`    |
-
-> **Download Node.js:** https://nodejs.org (choose the LTS version)
+**[adityarajshukla.vercel.app](https://adityarajshukla.vercel.app)** ← *(update after deploy)*
 
 ---
 
-## 2. Project Setup
+## ✨ Features
 
-```bash
-# Step 1 — Clone or copy the project into a folder
-git clone https://github.com/yourusername/mario-portfolio.git
-# OR just copy the downloaded folder and open a terminal inside it
-
-# Step 2 — Go into the project folder
-cd mario-portfolio
-
-# Step 3 — Install all dependencies (takes ~30 seconds)
-npm install
-```
-
-After `npm install` you will see a `node_modules/` folder appear. That is normal.
-
----
-
-## 3. Adding Your Assets
-
-The project works **without assets** (sounds/images are optional — the site
-won't crash if they are missing). But to get the full experience, add these files:
-
-### 🔊 Sound Effects — place in `public/sounds/`
-
-Create the folder `public/sounds/` and add these MP3 files:
-
-| Filename           | What it does            | Download from                                      |
-|--------------------|-------------------------|----------------------------------------------------|
-| `coin.mp3`         | Coin collect sound      | https://pixabay.com/sound-effects/search/mario/    |
-| `jump.mp3`         | Jump sound              | Same                                               |
-| `powerup.mp3`      | Power-up / badge unlock | Same                                               |
-| `stage-clear.mp3`  | Level complete jingle   | https://themushroomkingdom.net/media/smb/wav        |
-| `game-over.mp3`    | Game-over tune          | Same                                               |
-| `pipe.mp3`         | Warp pipe whoosh        | https://pixabay.com/sound-effects/search/mario/    |
-| `block.mp3`        | Hit ? block sound       | Same                                               |
-| `bg-music.mp3`     | Background music (loop) | https://www.fesliyanstudios.com/royalty-free-music/downloads-c/8-bit-music/6 |
-
-```
-public/
-└── sounds/
-    ├── coin.mp3
-    ├── jump.mp3
-    ├── powerup.mp3
-    ├── stage-clear.mp3
-    ├── game-over.mp3
-    ├── pipe.mp3
-    ├── block.mp3
-    └── bg-music.mp3
-```
-
-### 🖼️ Sprites — place in `public/sprites/`
-
-These are all optional decorative images:
-
-| Filename          | Used for                     | Download from                                   |
-|-------------------|------------------------------|-------------------------------------------------|
-| `world-map.png`   | Background texture on map    | https://www.spriters-resource.com/nes/supermariobros/ |
-| `mushroom.svg`    | Browser tab favicon          | Draw a simple red mushroom SVG, or skip          |
-
-```
-public/
-└── sprites/
-    ├── world-map.png   (optional)
-    └── mushroom.svg    (optional — used as favicon)
-```
-
-> **No assets? No problem.** The site loads and runs fine without any of these.
-> Sounds simply won't play and placeholder backgrounds will be used.
+- 🎮 **Full Mario HUD** — score, coins, lives, world indicator, hi-score (localStorage)
+- 🗺️ **Interactive World Map** — click any world node to warp to that section
+- 🍄 **Loading screen** — bouncing Mario sprite with animated progress bar
+- 🎬 **Title screen** — PRESS START to enter the portfolio
+- 🪙 **Collectible coins** — click Mario, hit ? blocks, flip project cards
+- 🏆 **Achievement system** — 6 lockable badges with rarity tiers (LEGENDARY / EPIC / RARE / COMMON)
+- 🎵 **Sound system** — 8 Web Audio sound effects (coin, jump, powerup, etc.)
+- 🚶 **Walking Mario Easter egg** — appears every ~20s, press ↑ or click to jump
+- 📊 **Portfolio progress bar** — tracks sections visited, badges unlocked, coins collected
+- 🌍 **6 themed worlds** — each section has a unique Mario world parallax background
+- 📱 **Responsive** — mobile hamburger menu, desktop full nav
+- ⚡ **Zero npm dependencies** beyond React + React DOM
 
 ---
 
-## 4. Personalise Your Data
-
-### 4a. Your name and title
-
-Open `src/components/sections/TitleScreen.jsx` and edit lines 11–14:
-
-```js
-const PLAYER_NAME  = 'YOUR NAME'           // ← your full name
-const PLAYER_TITLE = 'DEVELOPER · BUILDER' // ← your tagline
-const PLAYER_CLASS = 'FULL STACK DEV'      // ← your role/class
-const PLAYER_LEVEL = 'LVL 4'              // ← experience level
-```
-
-Open `src/components/sections/Overview.jsx` and change:
-- `YOUR NAME` (line ~115) → your name
-- The four `StatChip` values → your real numbers
-
-### 4b. Education
-
-Open `src/components/sections/Education.jsx`, find `const EDUCATION = [` and
-replace the three objects with your real degrees.
-
-### 4c. Projects
-
-Open `src/components/sections/Projects.jsx`, find `const PROJECTS = [` and
-replace the six objects. Each project has:
-```js
-{
-  id:       1,
-  title:    'PROJECT NAME',
-  subtitle: 'Short description',
-  tech:     ['React', 'Node.js'],   // tech tags
-  emoji:    '🤖',
-  color:    '#049CD8',
-  github:   'https://github.com/you/repo',
-  demo:     'https://your-demo.com',  // or null
-  desc:     'Longer description shown on card flip.',
-  stars:    42,                       // GitHub stars
-  category: 'Web',                    // filter category
-}
-```
-
-### 4d. Achievements, Positions, Hobbies
-
-Same pattern — find the data array at the top of each file and replace
-with your own entries.
-
-### 4e. Social links in Footer
-
-Open `src/components/layout/Footer.jsx` and update the `SocialBtn` hrefs:
-
-```jsx
-<SocialBtn label="GITHUB"   href="https://github.com/YOURUSERNAME" />
-<SocialBtn label="LINKEDIN" href="https://linkedin.com/in/YOURPROFILE" />
-<SocialBtn label="EMAIL"    href="mailto:YOUR@EMAIL.COM" />
-<SocialBtn label="RESUME"   href="/resume.pdf" />
-```
-
-> Drop your `resume.pdf` into the `public/` folder so that link works.
-
----
-
-## 5. Running Locally
-
-```bash
-# Start the development server
-npm run dev
-```
-
-This will print something like:
-
-```
-  VITE v5.x.x  ready in 800ms
-
-  ➜  Local:   http://localhost:3000/
-  ➜  Network: http://192.168.x.x:3000/
-```
-
-Open **http://localhost:3000** in your browser.
-
-**Hot reload is enabled** — any change you save instantly updates in the browser.
-
-### What you'll see on first load
-
-```
-[Black screen]  →  Loading screen (2.5s)
-                →  Title screen "MARIO PORTFOLIO" (press Space / Enter / click)
-                →  Portfolio with all 6 world sections
-```
-
----
-
-## 6. Building for Production
-
-```bash
-# Create optimised production build
-npm run build
-```
-
-Output goes to the `dist/` folder. The build:
-- Minifies all JS and CSS
-- Splits code into vendor chunks (React, Howler, etc.) for fast caching
-- Hashes all filenames for cache-busting
-
-```bash
-# Preview the production build locally before deploying
-npm run preview
-# Opens at http://localhost:4173
-```
-
----
-
-## 7. Deploying
-
-### Option A — GitHub Pages (free, easiest)
-
-```bash
-# 1. Create a repo on GitHub, push your code
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/YOURUSERNAME/mario-portfolio.git
-git push -u origin main
-
-# 2. Add homepage to package.json  (replace with your actual URL)
-#    "homepage": "https://YOURUSERNAME.github.io/mario-portfolio"
-
-# 3. One command deploy
-npm run deploy
-```
-
-The site will be live at: `https://YOURUSERNAME.github.io/mario-portfolio`
-
----
-
-### Option B — Vercel (recommended for custom domain)
-
-```bash
-# Install Vercel CLI once
-npm install -g vercel
-
-# Deploy (follow the prompts — say YES to all defaults)
-vercel
-
-# For production deploy
-vercel --prod
-```
-
-Your site gets a free `*.vercel.app` URL instantly.
-
----
-
-### Option C — Netlify (drag and drop)
-
-```bash
-# Build first
-npm run build
-
-# Then drag the  dist/  folder to https://app.netlify.com/drop
-```
-
-Done. No CLI needed.
-
----
-
-### Option D — Any static host
-
-Upload the contents of `dist/` to any web host (S3, Firebase Hosting,
-Cloudflare Pages, etc.). It's just static HTML + JS + CSS.
-
----
-
-## 8. Folder Structure
+## 🗂️ Folder Structure
 
 ```
 mario-portfolio/
 │
-├── public/                        # Static assets served as-is
-│   ├── sounds/                    # 🔊 MP3 sound effects
-│   ├── sprites/                   # 🖼️ PNG/SVG sprites
-│   └── resume.pdf                 # 📄 Your resume (optional)
+├── index.html                         ← Page title + favicon link
+├── package.json                       ← Only react + react-dom
+├── vite.config.js
+├── tailwind.config.js
+├── postcss.config.js
+├── vercel.json                        ← Vercel deploy config + cache headers
+├── extract_mario_sprites.py           ← Sprite cutter script
 │
-├── src/
-│   ├── App.jsx                    # Root component & routing
-│   ├── main.jsx                   # ReactDOM entry point
-│   ├── index.css                  # Global styles, keyframes, responsive
-│   │
-│   ├── context/
-│   │   ├── GameContext.jsx        # Score, coins, lives, hi-score, timer
-│   │   └── ThemeContext.jsx       # Day / Night toggle
-│   │
-│   ├── hooks/
-│   │   ├── useSound.js            # Play sounds via context
-│   │   ├── useScrollAnimation.js  # Reveal elements on scroll
-│   │   └── useMarioScore.js       # Score++ as user scrolls
-│   │
-│   ├── utils/
-│   │   ├── constants.js           # WORLDS array, colour palette, scores
-│   │   └── soundManager.js        # Howler.js wrapper (graceful fallback)
-│   │
-│   ├── components/
-│   │   ├── layout/
-│   │   │   ├── Navbar.jsx         # Fixed HUD with score, nav, theme toggle
-│   │   │   ├── Footer.jsx         # Game-clear screen with stats
-│   │   │   ├── WorldMap.jsx       # Clickable overworld map
-│   │   │   └── MarioCharacter.jsx # Periodic walking Mario Easter egg
-│   │   │
-│   │   ├── sections/
-│   │   │   ├── TitleScreen.jsx    # Animated intro / press-start screen
-│   │   │   ├── Overview.jsx       # World Map + hero + stats
-│   │   │   ├── Education.jsx      # World 1-1 — brick blocks + timeline
-│   │   │   ├── Projects.jsx       # World 2-1 — flip cards + filter
-│   │   │   ├── Achievements.jsx   # World 3-1 — badge unlock room
-│   │   │   ├── Responsibility.jsx # World 4-1 — castle flagpole timeline
-│   │   │   └── Hobbies.jsx        # World 5-1 — star-power cards
-│   │   │
-│   │   ├── ui/
-│   │   │   ├── LoadingScreen.jsx  # Boot animation with progress bar
-│   │   │   ├── Toast.jsx          # Achievement notification (bottom-right)
-│   │   │   ├── Modal.jsx          # Pixel popup dialog
-│   │   │   ├── ScoreBoard.jsx     # HUD score / coins / lives
-│   │   │   ├── ScorePopup.jsx     # Floating +pts numbers
-│   │   │   ├── ProgressBar.jsx    # Portfolio completion tracker
-│   │   │   ├── SoundToggle.jsx    # Mute / unmute button
-│   │   │   ├── CoinCounter.jsx    # Animated coin display widget
-│   │   │   ├── BrickBlock.jsx     # Reusable ? block component
-│   │   │   └── WarpPipe.jsx       # Reusable warp pipe nav component
-│   │   │
-│   │   └── effects/
-│   │       ├── ParallaxBackground.jsx  # 5-theme layered parallax
-│   │       ├── FloatingCoins.jsx       # Ambient coin particles
-│   │       ├── CoinBurst.jsx           # Multi-directional coin explosion
-│   │       └── PixelTransition.jsx     # Black-grid section wipe
+├── public/
+│   ├── resume.pdf                     ← YOUR RESUME (add this!)
+│   ├── _redirects                     ← Netlify SPA redirect
+│   ├── sounds/
+│   │   ├── coin.mp3
+│   │   ├── jump.mp3
+│   │   ├── powerup.mp3
+│   │   ├── block.mp3
+│   │   ├── pipe.mp3
+│   │   ├── stage-clear.mp3
+│   │   ├── game-over.mp3
+│   │   └── bg-music.mp3
+│   └── sprites/
+│       ├── mario-idle.png             ← Standing Mario
+│       ├── mario-jump.png             ← Jumping Mario
+│       ├── mario-walk.gif             ← Walking Mario (animated)
+│       ├── mushroom.svg               ← Favicon 🍄
+│       └── world-map.png              ← World map background texture
 │
-├── .env.example                   # Environment variable template
-├── index.html                     # HTML shell with Press Start 2P font
-├── package.json                   # Dependencies & scripts
-├── vite.config.js                 # Build config with chunk splitting
-├── tailwind.config.js             # Mario colour palette + animations
-└── postcss.config.js              # PostCSS for Tailwind
+└── src/
+    ├── App.jsx                        ← Root: Loading → Title → Portfolio
+    ├── main.jsx                       ← React entry + ErrorBoundary
+    ├── index.css                      ← All animations + global styles
+    │
+    ├── context/
+    │   ├── GameContext.jsx            ← Score, coins, lives, achievements, sound
+    │   └── ThemeContext.jsx
+    │
+    ├── hooks/
+    │   ├── useSound.js                ← Play sound effects
+    │   ├── useScrollAnimation.js      ← IntersectionObserver + MutationObserver
+    │   └── useMarioScore.js           ← Score points on scroll
+    │
+    ├── utils/
+    │   ├── constants.js               ← WORLDS array, world metadata
+    │   └── soundManager.js            ← HTML Audio sound engine
+    │
+    └── components/
+        ├── layout/
+        │   ├── Navbar.jsx             ← HUD bar + nav links + sound toggle
+        │   ├── Footer.jsx             ← GAME CLEAR stats + social links
+        │   ├── WorldMap.jsx           ← Clickable overworld map
+        │   └── MarioCharacter.jsx     ← Walking Easter egg (↑ to jump)
+        │
+        ├── sections/
+        │   ├── TitleScreen.jsx        ← PRESS START screen
+        │   ├── Overview.jsx           ← World 0-0: hero + world map + stats
+        │   ├── Education.jsx          ← World 1-1: ? blocks + skill bars
+        │   ├── Projects.jsx           ← World 2-1: flip cards + filters
+        │   ├── Achievements.jsx       ← World 3-1: lockable badges
+        │   ├── Responsibility.jsx     ← World 4-1: flagpole cards
+        │   └── Hobbies.jsx            ← World 5-1: star power cards
+        │
+        ├── effects/
+        │   ├── ParallaxBackground.jsx ← 5 themes (sky/underground/castle/star/grass)
+        │   ├── FloatingCoins.jsx      ← Ambient background coins
+        │   ├── CoinBurst.jsx          ← Particle burst on interactions
+        │   └── PixelTransition.jsx    ← Wrapper (transition disabled to prevent black flash)
+        │
+        └── ui/
+            ├── LoadingScreen.jsx      ← Mario bounce + progress bar
+            ├── Toast.jsx              ← Achievement notifications
+            ├── ProgressBar.jsx        ← Portfolio completion %
+            ├── ScoreBoard.jsx         ← HUD score/coins/lives/world
+            ├── ScorePopup.jsx         ← Floating +pts numbers
+            ├── SoundToggle.jsx        ← 🔇/🔊 button
+            ├── Modal.jsx
+            ├── BrickBlock.jsx
+            ├── CoinCounter.jsx
+            └── WarpPipe.jsx
 ```
 
 ---
 
-## 9. Interactive Features
+## 🚀 Getting Started
 
-| Feature                   | How to trigger                          |
-|---------------------------|-----------------------------------------|
-| **Loading screen**        | Auto-plays on first visit               |
-| **Title screen**          | Press `Space` / `Enter` / click to enter|
-| **Score counter**         | Increases automatically as you scroll  |
-| **Coin collection**       | Click Mario on Overview or TitleScreen  |
-| **? Block skill reveal**  | Click yellow ? blocks in Education      |
-| **Project card flip**     | Click any project card                  |
-| **Achievement badge**     | Click locked badges to unlock           |
-| **Flag raise**            | Click role cards in Positions           |
-| **Star power**            | Click hobby cards                       |
-| **Day / Night toggle**    | Moon icon in top navbar                 |
-| **Sound on / off**        | Speaker icon in top navbar              |
-| **World map nav**         | Click nodes on the map in Overview      |
-| **Walking Mario**         | Appears every ~30 s — click for coins  |
-| **Pixel transition wipe** | Auto-fires when scrolling to new world  |
-| **Toast notifications**   | Pop up when unlocking achievements      |
-| **Score popups**          | Float up when score is earned           |
-| **Progress bar**          | Bottom of mobile menu / footer          |
-| **Hi-score**              | Saved to localStorage across visits     |
+### Prerequisites
 
----
+- **Node.js** v18 or higher
+- **npm** v9 or higher
 
-## 10. Troubleshooting
-
-### `npm install` fails
+### Installation
 
 ```bash
-# Clear npm cache and retry
-npm cache clean --force
-rm -rf node_modules package-lock.json
+# 1. Clone the repo
+git clone https://github.com/Adityaraj142857/portfolio.git
+cd portfolio
+
+# 2. Install dependencies (only react + react-dom — takes ~10 seconds)
 npm install
+
+# 3. Start dev server
+npm run dev
+# → http://localhost:3000
 ```
 
-### Port 3000 already in use
+### Other Commands
 
 ```bash
-# Use a different port
-npm run dev -- --port 3001
-```
-
-### Sounds not playing
-
-- Make sure your MP3 files are in `public/sounds/` with **exact filenames**
-- Click the 🔇 button in the navbar to enable audio
-- Browsers require a user interaction before playing audio — this is normal
-
-### White/blank screen in browser
-
-Open DevTools (`F12`) → Console tab. Common causes:
-- A JS syntax error in one of the section files
-- Missing `export default` in a component
-- Run `npm run build` — Vite will show the exact error with file and line number
-
-### Build error: `Cannot find module`
-
-```bash
-# Check that all imports match exact file names (case-sensitive on Linux)
-npm run build 2>&1 | head -30
-```
-
-### Deployed site shows blank page on Vercel/Netlify
-
-Add a `vercel.json` or `_redirects` file for SPA routing:
-
-**For Vercel** — create `vercel.json` in root:
-```json
-{
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
-}
-```
-
-**For Netlify** — create `public/_redirects`:
-```
-/*  /index.html  200
+npm run build     # production build  → dist/
+npm run preview   # preview build     → localhost:4173
 ```
 
 ---
 
-## Quick Cheat Sheet
+## 🔊 Sound Setup
+
+Download and place in `public/sounds/`. All files optional — site works without them.
+
+| Filename | Download from |
+|----------|--------------|
+| `coin.mp3` | [themushroomkingdom.net](https://themushroomkingdom.net/media/smb/wav) → smb_coin.wav |
+| `jump.mp3` | Same → smb_jump-small.wav |
+| `powerup.mp3` | Same → smb_powerup.wav |
+| `block.mp3` | Same → smb_breakblock.wav |
+| `pipe.mp3` | Same → smb_pipe.wav |
+| `stage-clear.mp3` | Same → smb_stage_clear.wav |
+| `game-over.mp3` | Same → smb_gameover.wav |
+| `bg-music.mp3` | [archive.org](https://archive.org) → Mario overworld theme |
+
+> Rename `.wav` → `.mp3` after downloading. Click the **🔇 button** in the navbar to enable sound (browser autoplay policy requires a user click first).
+
+---
+
+## 🖼️ Sprite Setup
+
+Extract Mario sprites from the NES sprite sheet using the included Python script:
 
 ```bash
-npm install        # install dependencies
-npm run dev        # start dev server → http://localhost:3000
-npm run build      # production build → dist/
-npm run preview    # preview production build → http://localhost:4173
-npm run deploy     # build + push to GitHub Pages
+# 1. Install Pillow
+pip install Pillow
+
+# 2. Put sprite sheet in same folder as the script
+#    Sheet name: NES_-_Super_Mario_Bros__-_Playable_Characters_-_Mario___Luigi.png
+#    Download:   https://www.spriters-resource.com/nes/supermariobros/
+
+# 3. Run
+python extract_mario_sprites.py
+
+# 4. Copy the 3 output files
+#    output_sprites/mario-idle.png  →  public/sprites/mario-idle.png
+#    output_sprites/mario-jump.png  →  public/sprites/mario-jump.png
+#    output_sprites/mario-walk.gif  →  public/sprites/mario-walk.gif
+```
+
+> All sprites have SVG fallbacks built in — the site works without them.
+
+---
+
+## ✏️ Personalisation
+
+All personal data is at the **top of each section file**. Never edit below the data array.
+
+| File | Find this | What to change |
+|------|-----------|----------------|
+| `src/components/sections/TitleScreen.jsx` | `const PLAYER_NAME` | Name, title, class, level |
+| `src/components/sections/Overview.jsx` | `ADITYA RAJ SHUKLA` | Hero name, tagline, stat chips, email |
+| `src/components/sections/Education.jsx` | `const EDUCATION = [` | Degrees, institutions, grades, skills |
+| `src/components/sections/Projects.jsx` | `const PROJECTS = [` | Projects, GitHub links, demo links |
+| `src/components/sections/Achievements.jsx` | `const ACHIEVEMENTS = [` | Awards, certs, badges |
+| `src/components/sections/Responsibility.jsx` | `const ROLES = [` | Jobs, internships, positions |
+| `src/components/sections/Hobbies.jsx` | `const HOBBIES = [` | Hobbies, levels, descriptions |
+| `src/components/layout/Footer.jsx` | `SocialBtn` blocks | GitHub, LinkedIn, Email, Resume links |
+| `index.html` | `<title>` | Browser tab title |
+
+### ⚠️ Rules to Avoid Crashes
+
+```js
+// Achievements rarity — must be EXACTLY one of these 4 strings:
+rarity: 'LEGENDARY'   // ✅
+rarity: 'EPIC'        // ✅
+rarity: 'RARE'        // ✅
+rarity: 'COMMON'      // ✅
+rarity: 'UNCOMMON'    // ❌ crashes — not in RARITY_STYLES
+
+// Email href — must include mailto:
+href: 'mailto:you@email.com'   // ✅
+href: 'you@email.com'          // ❌ opens blank page
+
+// Data array names — keep exactly as-is
+const EDUCATION = [   // ✅
+const education = [   // ❌ crashes — component uses EDUCATION
 ```
 
 ---
 
-*© 2024 Mario Portfolio — Made with ❤️ and 🍄 mushrooms*
-*Not affiliated with Nintendo. Super Mario is a trademark of Nintendo Co., Ltd.*
+## 🎮 Interactive Features
+
+| Feature | How to trigger |
+|---------|----------------|
+| Collect coin | Click Mario on Overview or TitleScreen |
+| Reveal skill bars | Hit ? blocks in Education |
+| See project details | Click any project card to flip it |
+| Unlock achievement | Click any locked 🔒 badge |
+| Raise the flag | Click any role card in Responsibility |
+| Star power | Click any hobby card |
+| Walking Mario | Appears every ~20s at the bottom of screen |
+| Mario jump | Press **↑ arrow key** or click him |
+| Sound on/off | Click **🔇** in top-right navbar |
+| Warp to section | Click any node on the World Map |
+
+---
+
+## 🌐 Deployment
+
+### Option A — Vercel (Recommended)
+
+```bash
+npm install -g vercel   # install once
+cd portfolio
+vercel                  # follow prompts (all defaults)
+vercel --prod           # promote to production
+```
+
+URL: `https://portfolio-adityaraj142857.vercel.app`
+
+### Option B — Netlify (Drag & drop)
+
+```bash
+npm run build
+# Go to https://app.netlify.com/drop
+# Drag the dist/ folder onto the page
+```
+
+### Option C — GitHub Pages
+
+```bash
+# Add to package.json:
+# "homepage": "https://Adityaraj142857.github.io/portfolio"
+# "scripts": { "deploy": "gh-pages -d dist" }
+
+npm install --save-dev gh-pages
+npm run build
+npm run deploy
+```
+
+### Pre-deploy Checklist
+
+```
+✅ public/resume.pdf exists
+✅ public/sounds/ has all 8 MP3 files
+✅ public/sprites/ has mario-idle.png, mario-jump.png, mario-walk.gif
+✅ All personal data updated in section files
+✅ Footer social links updated (GitHub, LinkedIn, Email)
+✅ index.html <title> updated
+✅ npm run build completes with no errors
+✅ npm run preview looks correct at localhost:4173
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React | 18 | UI framework |
+| Vite | 5 | Build tool + dev server |
+| Tailwind CSS | 3 | Utility styling |
+| Web Audio API | — | Sound system (zero deps) |
+| IntersectionObserver | — | Scroll reveal animations |
+| MutationObserver | — | Dynamic element detection |
+| CSS Keyframes | — | All Mario animations |
+| localStorage | — | Hi-score persistence |
+
+**Zero external runtime dependencies** — only `react` and `react-dom` in production.
+
+---
+
+## 🐛 Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| White/blank screen | Check browser console → usually missing import or bad data array |
+| All content invisible (opacity: 0) | Hard refresh `Cmd+Shift+R` — `useScrollAnimation` didn't initialise |
+| Sound not working | Click 🔇 button first — browsers block autoplay until user interaction |
+| `EDUCATION is not defined` | You renamed `const EDUCATION` — keep the exact variable name |
+| `Cannot read 'bg' of undefined` | Invalid `rarity` in Achievements — must be `LEGENDARY/EPIC/RARE/COMMON` |
+| Mario moonwalking | Walk GIF faces right — never apply `scaleX(-1)` flip to it |
+| Black screen while scrolling | `PixelTransition` firing on scroll — keep the disabled version |
+| `@apply` CSS warnings in VS Code | Add `.vscode/settings.json` → `"css.validate": false` |
+| Contact button not working | Email href must start with `mailto:` |
+
+---
+
+## 📄 License
+
+MIT — free to use, modify, and deploy for personal or commercial use.
+
+> Not affiliated with Nintendo. Super Mario Bros is a trademark of Nintendo Co., Ltd.
+
+---
+
+## 🙏 Credits
+
+- Sprite sheet: [The Spriters Resource](https://www.spriters-resource.com)
+- Sound effects: [The Mushroom Kingdom](https://themushroomkingdom.net)
+- Font: [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) by CodeMan38
+- World map texture: [Transparent Textures](https://www.transparenttextures.com)
+
+---
+
+<div align="center">
+
+**Built with ❤️ and ☕ by Aditya Raj Shukla**
+
+🍄 *GAME CLEAR!* 🍄
+
+*If this helped you, consider leaving a ⭐ on GitHub!*
+
+</div>
