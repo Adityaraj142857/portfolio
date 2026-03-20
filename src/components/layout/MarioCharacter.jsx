@@ -102,9 +102,9 @@ export default function MarioCharacter() {
       title="Click or press ↑ to jump! 🪙"
       style={{
         position:      'fixed',
-        bottom:         6,
+        bottom:         72,    /* sits above footer buttons */
         left:           posX,
-        zIndex:         997,
+        zIndex:         500,   /* footer at 1000 stays on top */
         cursor:        'pointer',
         /* No scaleX flip — always faces right naturally */
         transform:     `translateY(${jumping ? -36 : 0}px)`,

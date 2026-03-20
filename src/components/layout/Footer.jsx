@@ -1,19 +1,21 @@
 /**
- * Footer.jsx — Phase 5+6
- * Added: session stats, progress bar, social links, 
- *        game-over style score summary.
+ * Footer.jsx — Fixed version
+ * Changes from uploaded file:
+ *   1. position:relative + zIndex:1000  → always above Mario
+ *   2. BADGES shows achievements.length + '/6'  → not "00"
+ *   3. RANK threshold → S=10 coins, A=5 (was 50/25, too hard)
  */
-import { useGame }    from '../../context/GameContext'
-import ProgressBar    from '../ui/ProgressBar'
+import { useGame }   from '../../context/GameContext'
+import ProgressBar   from '../ui/ProgressBar'
 
-/* ── format mm:ss ── */
+/* ── mm:ss formatter ── */
 function formatTime(secs) {
   const m = Math.floor(secs / 60)
   const s = secs % 60
   return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`
 }
 
-/* ── Social link button ── */
+/* ── Social button ── */
 function SocialBtn({ label, href, color = '#FBD000' }) {
   return (
     <a
@@ -22,17 +24,17 @@ function SocialBtn({ label, href, color = '#FBD000' }) {
       rel="noreferrer"
       onClick={e => e.stopPropagation()}
       style={{
-        fontFamily: "'Press Start 2P', cursive",
-        fontSize:    8,
-        color:      '#000',
-        background:  color,
-        border:     '3px solid #000',
-        boxShadow:  '3px 3px 0 #000',
-        padding:    '7px 16px',
+        fontFamily:     "'Press Start 2P', cursive",
+        fontSize:        8,
+        color:          '#000',
+        background:      color,
+        border:         '3px solid #000',
+        boxShadow:      '3px 3px 0 #000',
+        padding:        '7px 16px',
         textDecoration: 'none',
-        display:    'inline-block',
-        transition: 'all 0.1s steps(2)',
-        cursor:     'pointer',
+        display:        'inline-block',
+        cursor:         'pointer',
+        transition:     'all 0.1s steps(2)',
       }}
       onMouseEnter={e => {
         e.currentTarget.style.transform = 'translate(2px,2px)'
@@ -53,7 +55,9 @@ export default function Footer() {
 
   return (
     <footer style={{
-      background:  '#000',
+      position:   'relative',    /* Fix: stays above Mario */
+      zIndex:      1000,         /* Fix: above Mario (z-index 500) */
+      background: '#000',
       borderTop:  '4px solid #FBD000',
       fontFamily: "'Press Start 2P', cursive",
       overflow:   'hidden',
@@ -61,27 +65,28 @@ export default function Footer() {
       {/* Ground row */}
       <div className="ground-row" />
 
-      {/* ── Score card ── */}
+      {/* Score card */}
       <div style={{
         maxWidth:  800,
         margin:   '0 auto',
         padding:  '36px 24px 28px',
         textAlign: 'center',
       }}>
-        {/* GAME OVER banner */}
+
+        {/* GAME CLEAR banner */}
         <div style={{
-          display:   'inline-block',
-          background: '#E52521',
-          border:    '4px solid #000',
-          boxShadow: '6px 6px 0 #000',
-          padding:   '10px 28px',
-          marginBottom: 28,
+          display:      'inline-block',
+          background:   '#E52521',
+          border:       '4px solid #000',
+          boxShadow:    '6px 6px 0 #000',
+          padding:      '10px 28px',
+          marginBottom:  28,
         }}>
           <p style={{
-            fontSize:    'clamp(14px,3vw,22px)',
-            color:       '#fff',
-            textShadow:  '2px 2px 0 #8B0000,4px 4px 0 #000',
-            letterSpacing: 4,
+            fontSize:      'clamp(14px,3vw,22px)',
+            color:         '#fff',
+            textShadow:    '2px 2px 0 #8B0000,4px 4px 0 #000',
+            letterSpacing:  4,
           }}>
             GAME  CLEAR !
           </p>
@@ -89,28 +94,32 @@ export default function Footer() {
 
         {/* Stats grid */}
         <div style={{
-          display:        'grid',
+          display:             'grid',
           gridTemplateColumns: 'repeat(auto-fit,minmax(120px,1fr))',
-          gap:             16,
-          marginBottom:    28,
+          gap:                  16,
+          marginBottom:         28,
         }}>
           {[
-            { label:'SCORE',       val: formattedScore,              color:'#FBD000' },
-            { label:'HI-SCORE',    val: formattedHiScore,            color:'#E52521' },
-            { label:'COINS',       val: String(coins).padStart(3,'0'), color:'#FFD700' },
-            { label:'BADGES',      val: String(achievements.length).padStart(2,'0'), color:'#9B59B6' },
-            { label:'TIME',        val: formatTime(sessionTime),     color:'#43B047' },
-            { label:'RANK',        val: coins >= 50 ? 'S' : coins >= 25 ? 'A' : 'B', color:'#43B047' },
+            { label:'SCORE',    val: formattedScore,                        color:'#FBD000' },
+            { label:'HI-SCORE', val: formattedHiScore,                      color:'#E52521' },
+            { label:'COINS',    val: String(coins).padStart(3,'0'),          color:'#FFD700' },
+            /* Fix: show X/6 instead of 00 */
+            { label:'BADGES',   val: achievements.length + '/6',             color:'#9B59B6' },
+            { label:'TIME',     val: formatTime(sessionTime),                color:'#43B047' },
+            /* Fix: easier rank — S needs only 10 coins */
+            { label:'RANK',     val: coins >= 10 ? 'S' : coins >= 5 ? 'A' : 'B', color:'#43B047' },
           ].map(s => (
             <div key={s.label} style={{
               background: 'rgba(255,255,255,0.04)',
               border:    `2px solid ${s.color}40`,
               padding:   '12px 8px',
             }}>
-              <p style={{ fontSize:6, color: s.color, marginBottom:6 }}>{s.label}</p>
+              <p style={{ fontSize:6, color:s.color, marginBottom:6 }}>
+                {s.label}
+              </p>
               <p style={{
-                fontSize:  s.label === 'RANK' ? 22 : 15,
-                color:    '#fff',
+                fontSize:   s.label === 'RANK' ? 22 : 15,
+                color:     '#fff',
                 textShadow:'2px 2px 0 #000',
               }}>
                 {s.val}
@@ -120,28 +129,27 @@ export default function Footer() {
         </div>
 
         {/* Progress bar */}
-        <div style={{ maxWidth: 480, margin: '0 auto 28px' }}>
+        <div style={{ maxWidth:480, margin:'0 auto 28px' }}>
           <ProgressBar />
         </div>
 
         {/* Thank you */}
         <p style={{
-          fontSize:    10,
-          color:      '#fff',
-          textShadow: '2px 2px 0 #000',
+          fontSize:     10,
+          color:       '#fff',
+          textShadow:  '2px 2px 0 #000',
           marginBottom: 24,
-          animation:  'blink 1s steps(1) infinite',
+          animation:   'blink 1s steps(1) infinite',
         }}>
           ✨ THANK YOU FOR PLAYING! ✨
         </p>
 
-        {/* Social links — EDIT THESE */}
+        {/* Social links — edit these */}
         <div style={{ display:'flex', justifyContent:'center', gap:12, flexWrap:'wrap', marginBottom:24 }}>
-          <SocialBtn label="GITHUB"   href="https://github.com/Adityaraj142857/"          color="#333" />
-          <SocialBtn label="LINKEDIN" href="https://linkedin.com/in/aditya-raj-shukla-b021121ab"       color="#049CD8" />
-          {/* <SocialBtn label="TWITTER"  href="https://twitter.com/yourhandle"            color="#1DA1F2" /> */}
+          <SocialBtn label="GITHUB"   href="https://github.com/Adityaraj142857/"                  color="#333"    />
+          <SocialBtn label="LINKEDIN" href="https://linkedin.com/in/aditya-raj-shukla-b021121ab"  color="#049CD8" />
           <SocialBtn label="EMAIL"    href="mailto:adityashukla.cat@gmail.com"                    color="#E52521" />
-          <SocialBtn label="RESUME"   href="/resume.pdf"                               color="#43B047" />
+          <SocialBtn label="RESUME"   href="/resume.pdf"                                          color="#43B047" />
         </div>
 
         {/* Legal */}
@@ -151,20 +159,8 @@ export default function Footer() {
         <p style={{ fontSize:5, color:'#2a2a2a' }}>
           NOT AFFILIATED WITH NINTENDO. SUPER MARIO IS A TRADEMARK OF NINTENDO CO., LTD.
         </p>
+
       </div>
     </footer>
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

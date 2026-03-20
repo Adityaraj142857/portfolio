@@ -281,7 +281,12 @@ export default function Hobbies() {
         </div>
 
         {/* Grid */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(290px,1fr))', gap:24 }}>
+        <div style={{
+          display:'grid',
+          gridTemplateColumns:'repeat(auto-fill,minmax(290px,1fr))',
+          gap:24,
+          justifyItems:'stretch',
+        }}>
           {HOBBIES.map((hobby, i) => (
             <HobbyCard key={hobby.id} hobby={hobby} index={i} />
           ))}

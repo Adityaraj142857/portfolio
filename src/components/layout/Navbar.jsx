@@ -1,24 +1,23 @@
 /**
- * Navbar.jsx — Phase 4+5
- * Added: high-score display, theme toggle (day/night),
- *        ProgressBar chip, session timer.
+ * Navbar.jsx — Fixed
+ * - Removed day/night toggle (was wired to nothing visual)
+ * - Sound toggle always visible with flexShrink:0
+ * - Hamburger only on mobile, desktop nav clips gracefully
  */
 import { useEffect, useState } from 'react'
-import { useGame }       from '../../context/GameContext'
-import { useTheme }      from '../../context/ThemeContext'
-import ScoreBoard        from '../ui/ScoreBoard'
-import SoundToggle       from '../ui/SoundToggle'
-import ProgressBar       from '../ui/ProgressBar'
-import { WORLDS }        from '../../utils/constants'
-import { useSound }      from '../../hooks/useSound'
+import { useGame }   from '../../context/GameContext'
+import ScoreBoard    from '../ui/ScoreBoard'
+import SoundToggle   from '../ui/SoundToggle'
+import ProgressBar   from '../ui/ProgressBar'
+import { WORLDS }    from '../../utils/constants'
+import { useSound }  from '../../hooks/useSound'
 
 export default function Navbar() {
   const { activeSection, goToWorld, formattedHiScore } = useGame()
-  const { isDark, toggleTheme } = useTheme()
   const { play } = useSound()
   const [menuOpen, setMenuOpen] = useState(false)
 
-  /* smooth-scroll helper */
+  /* smooth scroll */
   const scrollToSection = (world) => {
     play('pipe')
     goToWorld(world.world, world.id)
@@ -45,98 +44,65 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="hud-navbar" style={{ flexWrap: 'nowrap' }}>
+      <nav className="hud-navbar" style={{ flexWrap: 'nowrap', overflow: 'hidden' }}>
 
-        {/* ── Score cluster ── */}
+        {/* Score cluster — left side */}
         <ScoreBoard />
 
-        {/* Hi-Score (desktop only) */}
-        <div className="hud-item" style={{
-          display: 'none',
-          flexDirection: 'column',
-          gap: 2,
-          minWidth: 90,
-          marginLeft: 8,
-        }}
-          id="hi-score-chip"
-        >
-          <span className="hud-label" style={{ fontSize: 7, color: '#E52521' }}>HI-SCORE</span>
-          <span className="hud-value" style={{ fontSize: 12, color: '#E52521' }}>{formattedHiScore}</span>
-        </div>
-
-        {/* Spacer */}
+        {/* Flexible spacer */}
         <div style={{ flex: 1, minWidth: 0 }} />
 
-        {/* ── World nav links (desktop) ── */}
+        {/* Desktop nav links — shrinks before sound/hamburger */}
         <div style={{
-          display: 'flex',
+          display:    'flex',
           alignItems: 'center',
-          gap: 2,
-          flexShrink: 0,
-          overflow: 'hidden',
-        }}
-          className="desktop-nav"
-        >
+          gap:         2,
+          overflow:   'hidden',          /* clips links, not sound */
+          flexShrink:  1,
+          minWidth:    0,
+        }}>
           {WORLDS.map(world => (
             <button
               key={world.id}
               onClick={() => scrollToSection(world)}
-              className={`world-link ${activeSection === world.id ? 'active' : ''}`}
+              className={`world-link desktop-only ${activeSection === world.id ? 'active' : ''}`}
               onMouseEnter={() => play('coin')}
-              style={{ whiteSpace: 'nowrap' }}
+              style={{ whiteSpace: 'nowrap', flexShrink: 0 }}
             >
               {world.emoji} {world.label}
             </button>
           ))}
         </div>
 
-        {/* ── Day/Night toggle ── */}
-        <button
-          onClick={() => { toggleTheme(); play('block') }}
-          title={isDark ? 'Switch to Day mode' : 'Switch to Night mode'}
-          style={{
-            fontFamily: "'Press Start 2P', cursive",
-            fontSize: 14,
-            background: 'transparent',
-            border: '2px solid rgba(255,255,255,0.2)',
-            padding: '4px 8px',
-            cursor: 'pointer',
-            flexShrink: 0,
-            color: '#fff',
-            boxShadow: '2px 2px 0 #000',
-          }}
-        >
-          {isDark ? '☀️' : '🌙'}
-        </button>
+        {/* Sound toggle — NEVER hidden, always flexShrink:0 */}
+        <div style={{ flexShrink: 0, marginLeft: 6 }}>
+          <SoundToggle />
+        </div>
 
-        {/* ── Sound toggle ── */}
-        <SoundToggle />
-
-        {/* ── Mobile hamburger ── */}
+        {/* Mobile hamburger — hidden on desktop via CSS */}
         <button
           className="mobile-menu-btn btn-pixel"
-          style={{ padding: '6px 10px', fontSize: 10, flexShrink: 0 }}
+          style={{ padding: '6px 10px', fontSize: 10, flexShrink: 0, marginLeft: 4 }}
           onClick={() => setMenuOpen(o => !o)}
         >
           {menuOpen ? '✕' : '☰'}
         </button>
       </nav>
 
-      {/* ── Mobile dropdown ── */}
+      {/* Mobile dropdown */}
       {menuOpen && (
         <div style={{
-          position:   'fixed',
-          top:         64,
-          left:        0, right: 0,
-          background: 'rgba(0,0,0,0.97)',
-          borderBottom: '3px solid #FBD000',
-          zIndex:      998,
-          padding:     16,
-          display:    'flex',
+          position:      'fixed',
+          top:            64,
+          left:           0, right: 0,
+          background:    'rgba(0,0,0,0.97)',
+          borderBottom:  '3px solid #FBD000',
+          zIndex:         998,
+          padding:        16,
+          display:       'flex',
           flexDirection: 'column',
-          gap:          8,
+          gap:            8,
         }}>
-          {/* Progress in dropdown */}
           <ProgressBar style={{ marginBottom: 8 }} />
 
           {WORLDS.map(world => (
@@ -150,13 +116,12 @@ export default function Navbar() {
             </button>
           ))}
 
-          {/* Hi-score in mobile menu */}
           <div style={{
             fontFamily: "'Press Start 2P', cursive",
-            fontSize: 7,
-            color: '#E52521',
-            paddingTop: 8,
-            borderTop: '1px solid rgba(255,255,255,0.1)',
+            fontSize:    7,
+            color:      '#E52521',
+            paddingTop:  8,
+            borderTop:  '1px solid rgba(255,255,255,0.1)',
             textShadow: '1px 1px 0 #000',
           }}>
             HI-SCORE: {formattedHiScore}
