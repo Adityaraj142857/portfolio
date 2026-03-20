@@ -1,0 +1,77 @@
+/**
+ * soundManager.js — Simple HTML Audio (most compatible, zero deps)
+ * Files go in: public/sounds/
+ */
+
+const _audio = {}
+let _enabled = false
+
+const FILES = {
+  coin:       '/sounds/coin.mp3',
+  jump:       '/sounds/jump.mp3',
+  powerup:    '/sounds/powerup.mp3',
+  stageClear: '/sounds/stage-clear.mp3',
+  gameOver:   '/sounds/game-over.mp3',
+  pipe:       '/sounds/pipe.mp3',
+  block:      '/sounds/block.mp3',
+  bg:         '/sounds/bg-music.mp3',
+}
+
+/* Pre-create Audio objects */
+export function initSounds() {
+  Object.entries(FILES).forEach(([key, src]) => {
+    try {
+      const a = new Audio(src)
+      a.volume = key === 'bg' ? 0.25 : 0.55
+      if (key === 'bg') a.loop = true
+      a.preload = 'auto'
+      _audio[key] = a
+    } catch (_) {}
+  })
+}
+
+/* Play */
+export function playSound(name) {
+  if (!_enabled) return
+  const a = _audio[name]
+  if (!a) return
+  try {
+    if (name === 'bg') {
+      if (a.paused) a.play().catch(() => {})
+    } else {
+      /* Clone for overlapping SFX */
+      const clone = a.cloneNode()
+      clone.volume = a.volume
+      clone.play().catch(() => {})
+    }
+  } catch (_) {}
+}
+
+/* Stop */
+export function stopSound(name) {
+  const a = _audio[name]
+  if (!a) return
+  try { a.pause(); a.currentTime = 0 } catch (_) {}
+}
+
+/* Toggle */
+export function setSoundEnabled(val) {
+  _enabled = val
+  if (val) {
+    playSound('bg')
+  } else {
+    stopSound('bg')
+  }
+}
+
+export const sfx = {
+  coin:       () => playSound('coin'),
+  jump:       () => playSound('jump'),
+  powerup:    () => playSound('powerup'),
+  stageClear: () => playSound('stageClear'),
+  gameOver:   () => playSound('gameOver'),
+  pipe:       () => playSound('pipe'),
+  block:      () => playSound('block'),
+}
+
+export default { initSounds, playSound, stopSound, setSoundEnabled, sfx }

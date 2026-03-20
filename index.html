@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/sprites/mushroom.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Mario-themed personal portfolio — Level Up Your Career!" />
+    <title>🍄 ADITYA RAJ SHUKLA — Press Start!</title>
+
+    <!-- Press Start 2P Pixel Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Pixel-perfect rendering for all images */
+      img { image-rendering: pixelated; image-rendering: crisp-edges; }
+      /* Base body — always visible, no font-gate */
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #5C94FC;
+        font-family: 'Press Start 2P', 'Courier New', monospace;
+      }
+      /* Prevent text selection for game feel */
+      * { user-select: none; -webkit-user-select: none; }
+      p, h1, h2, h3, li { user-select: text; -webkit-user-select: text; }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar { width: 12px; }
+      ::-webkit-scrollbar-track { background: #000; }
+      ::-webkit-scrollbar-thumb { background: #E52521; border: 2px solid #000; }
+      ::-webkit-scrollbar-thumb:hover { background: #FBD000; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

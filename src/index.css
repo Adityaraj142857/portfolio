@@ -1,0 +1,785 @@
+/* ── Google Font — MUST be first ── */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* ============================================================
+   MARIO PORTFOLIO — GLOBAL STYLES
+   ============================================================ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   CSS VARIABLES — MARIO COLOR PALETTE
+   ============================================================ */
+:root {
+  --mario-red:        #E52521;
+  --mario-blue:       #049CD8;
+  --mario-yellow:     #FBD000;
+  --mario-green:      #43B047;
+  --mario-brown:      #8B4513;
+  --mario-sky:        #5C94FC;
+  --mario-ground:     #C84C0C;
+  --mario-pipe:       #2BA94C;
+  --mario-brick:      #C8440C;
+  --mario-block:      #F8B800;
+  --mario-coin:       #FFD700;
+  --mario-night:      #0D0D2B;
+  --pixel-border:     3px solid #000;
+  --pixel-border-w:   3px solid #fff;
+  --shadow-pixel:     4px 4px 0px #000000;
+  --shadow-pixel-sm:  2px 2px 0px #000000;
+  --transition-pixel: all 0.1s steps(2);
+}
+
+/* ============================================================
+   BASE RESET & GLOBAL
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Press Start 2P', cursive;
+  background-color: var(--mario-sky);
+  color: #ffffff;
+  overflow-x: hidden;
+  
+  min-height: 100vh;
+}
+
+/* Ensure links always work */
+a, button { pointer-events: auto !important; cursor: pointer !important; }
+
+/* Pixel-perfect image rendering */
+img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: #000; border-left: 2px solid #fff; }
+::-webkit-scrollbar-thumb {
+  background: var(--mario-red);
+  border: 2px solid #000;
+  image-rendering: pixelated;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--mario-yellow); }
+
+
+/* ============================================================
+   PIXEL UI UTILITIES
+   ============================================================ */
+@layer components {
+
+  /* Pixel Button */
+  .btn-pixel {
+    font-family: 'Press Start 2P', cursive; color: #000; font-size: 0.75rem; padding: 0.75rem 1rem; border-width: 2px; border-style: solid; border-color: #000; cursor: pointer; display: inline-block;
+    background: var(--mario-yellow);
+    box-shadow: var(--shadow-pixel);
+    transition: var(--transition-pixel);
+    text-decoration: none;
+  }
+  .btn-pixel:hover {
+    box-shadow: 2px 2px 0px #000000;
+    transform: translate(2px, 2px);
+  }
+  .btn-pixel:active {
+    box-shadow: none;
+    transform: translate(4px, 4px);
+  }
+
+  .btn-pixel-red {
+    font-family: 'Press Start 2P', cursive; color: #fff; font-size: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #000; cursor: pointer; display: inline-block;
+    background: var(--mario-red);
+    color: #fff;
+    box-shadow: 4px 4px 0px #8B0000;
+  }
+  .btn-pixel-red:hover { box-shadow: 2px 2px 0px #8B0000; }
+
+  .btn-pixel-blue {
+    font-family: 'Press Start 2P', cursive; color: #fff; font-size: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #000; cursor: pointer; display: inline-block;
+    background: var(--mario-blue);
+    color: #fff;
+    box-shadow: 4px 4px 0px #02618A;
+  }
+  .btn-pixel-blue:hover { box-shadow: 2px 2px 0px #02618A; }
+
+  .btn-pixel-green {
+    font-family: 'Press Start 2P', cursive; color: #fff; font-size: 0.75rem; padding: 0.75rem 1rem; border: 2px solid #000; cursor: pointer; display: inline-block;
+    background: var(--mario-green);
+    color: #fff;
+    box-shadow: 4px 4px 0px #1a5e1f;
+  }
+  .btn-pixel-green:hover { box-shadow: 2px 2px 0px #1a5e1f; }
+
+  /* Pixel Card */
+  .card-pixel {
+    border: 2px solid #000; padding: 1rem;
+    box-shadow: var(--shadow-pixel);
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Pixel Border */
+  .border-pixel { border: 3px solid #000; }
+  .border-pixel-white { border: 3px solid #fff; }
+  .border-pixel-yellow { border: 3px solid var(--mario-yellow); }
+
+  /* ? Block */
+  .question-block {
+    width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center; border: 2px solid #000; cursor: pointer; font-family: 'Press Start 2P', cursive; font-weight: 700; color: #000;
+    background: var(--mario-block);
+    box-shadow: inset 2px 2px 0 rgba(255,255,255,0.5), inset -2px -2px 0 rgba(0,0,0,0.4), var(--shadow-pixel);
+    transition: var(--transition-pixel);
+  }
+  .question-block:hover {
+    animation: bouncePixel 0.3s steps(2);
+    background: var(--mario-yellow);
+  }
+
+  /* Ground tile */
+  .ground-tile {
+    background: var(--mario-ground);
+    border-top: 4px solid #E86020;
+    border-left: 4px solid #E86020;
+    border-right: 4px solid #8B2500;
+    border-bottom: 4px solid #8B2500;
+  }
+
+  /* Brick block */
+  .brick-block {
+    background: var(--mario-brick);
+    border-top: 3px solid #E86020;
+    border-left: 3px solid #E86020;
+    border-right: 3px solid #8B2500;
+    border-bottom: 3px solid #8B2500;
+    position: relative;
+  }
+  .brick-block::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, transparent 48%, #8B2500 48%, #8B2500 52%, transparent 52%),
+      linear-gradient(180deg, transparent 45%, #8B2500 45%, #8B2500 55%, transparent 55%);
+  }
+
+  /* Warp Pipe */
+  .warp-pipe {
+    background: linear-gradient(90deg, #1A6B2F 0%, #2BA94C 25%, #43C55E 45%, #2BA94C 70%, #1A6B2F 100%);
+    border: 3px solid #000;
+    box-shadow: var(--shadow-pixel);
+    position: relative;
+  }
+  .warp-pipe-top {
+    background: linear-gradient(90deg, #1A6B2F 0%, #2BA94C 20%, #43C55E 40%, #2BA94C 65%, #1A6B2F 100%);
+    border: 3px solid #000;
+    border-bottom: none;
+    box-shadow: var(--shadow-pixel);
+  }
+
+  /* HUD Box — score/lives display */
+  .hud-box {
+    font-family: 'Press Start 2P', cursive; color: #fff;
+    background: rgba(0,0,0,0.75);
+    border: 2px solid rgba(255,255,255,0.2);
+    padding: 8px 14px;
+    text-shadow: 2px 2px 0 #000;
+  }
+
+  /* Pixel text glow */
+  .text-glow-yellow {
+    text-shadow: 0 0 8px var(--mario-yellow), 0 0 20px var(--mario-yellow), 2px 2px 0 #000;
+  }
+  .text-glow-red {
+    text-shadow: 0 0 8px var(--mario-red), 0 0 20px var(--mario-red), 2px 2px 0 #000;
+  }
+  .text-glow-blue {
+    text-shadow: 0 0 8px var(--mario-blue), 0 0 20px var(--mario-blue), 2px 2px 0 #000;
+  }
+  .text-shadow-pixel {
+    text-shadow: 2px 2px 0 #000, -1px -1px 0 #000;
+  }
+
+  /* Coin */
+  .coin {
+    width: 1.5rem; height: 1.5rem; border-radius: 9999px; border: 2px solid #000; display: inline-block;
+    background: radial-gradient(circle at 35% 35%, #FFE566, var(--mario-coin), #B8860B);
+    box-shadow: 1px 1px 0 #000;
+  }
+
+  /* Star */
+  .star {
+    display: inline-block;
+    color: var(--mario-yellow);
+    filter: drop-shadow(0 0 4px var(--mario-yellow));
+  }
+
+  /* Section wrapper */
+  .section-world {
+    position: relative; min-height: 100vh; overflow: hidden;
+    padding-top: 80px; /* HUD height */
+  }
+}
+
+
+/* ============================================================
+   ANIMATIONS & KEYFRAMES
+   ============================================================ */
+
+/* Pixel bounce */
+@keyframes bouncePixel {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* Float */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+
+/* Coin spin */
+@keyframes spinCoin {
+  0%   { transform: scaleX(1);   }
+  25%  { transform: scaleX(0.6); }
+  50%  { transform: scaleX(0.1); }
+  75%  { transform: scaleX(0.6); }
+  100% { transform: scaleX(1);   }
+}
+
+/* Blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Slide in from left */
+@keyframes slideIn {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  100% { transform: translateX(0);     opacity: 1; }
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+  0%   { transform: translateX(100%); opacity: 0; }
+  100% { transform: translateX(0);    opacity: 1; }
+}
+
+/* Slide in from bottom */
+@keyframes slideInUp {
+  0%   { transform: translateY(60px); opacity: 0; }
+  100% { transform: translateY(0);    opacity: 1; }
+}
+
+/* Fade in */
+@keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Pop in */
+@keyframes popIn {
+  0%   { transform: scale(0);    opacity: 0; }
+  60%  { transform: scale(1.15); opacity: 1; }
+  80%  { transform: scale(0.95); }
+  100% { transform: scale(1);    }
+}
+
+/* Shake */
+@keyframes shake {
+  0%, 100% { transform: translateX(0);  }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px);  }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px);  }
+}
+
+/* Star spin */
+@keyframes starSpin {
+  0%   { transform: rotate(0deg)   scale(1);   }
+  50%  { transform: rotate(180deg) scale(1.3); }
+  100% { transform: rotate(360deg) scale(1);   }
+}
+
+/* Walk across screen */
+@keyframes walkAcross {
+  0%   { left: -120px; }
+  100% { left: calc(100% + 120px); }
+}
+
+/* Cloud drift */
+@keyframes cloudDrift {
+  0%   { transform: translateX(0);    }
+  100% { transform: translateX(-120px); }
+}
+
+/* Ground scroll */
+@keyframes groundScroll {
+  0%   { background-position: 0 0; }
+  100% { background-position: -512px 0; }
+}
+
+/* Coin burst up */
+@keyframes coinBurst {
+  0%   { transform: translateY(0) scale(1);   opacity: 1; }
+  60%  { transform: translateY(-60px) scale(1); opacity: 1; }
+  100% { transform: translateY(-90px) scale(0); opacity: 0; }
+}
+
+/* Score pop */
+@keyframes scorePop {
+  0%   { transform: translateY(0)    scale(1);   opacity: 1; }
+  50%  { transform: translateY(-30px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-60px) scale(0.8); opacity: 0; }
+}
+
+/* Pixel transition wipe */
+@keyframes wipeIn {
+  0%   { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0% 0 0);   }
+}
+
+@keyframes wipeOut {
+  0%   { clip-path: inset(0 0 0 0);    }
+  100% { clip-path: inset(0 0 0 100%); }
+}
+
+/* Loading bar fill */
+@keyframes loadFill {
+  0%   { width: 0%; }
+  100% { width: 100%; }
+}
+
+/* Rainbow cycle */
+@keyframes rainbow {
+  0%   { color: var(--mario-red); }
+  16%  { color: var(--mario-yellow); }
+  33%  { color: var(--mario-green); }
+  50%  { color: var(--mario-blue); }
+  66%  { color: #9B59B6; }
+  83%  { color: var(--mario-red); }
+  100% { color: var(--mario-yellow); }
+}
+
+/* Pipe appear */
+@keyframes pipeAppear {
+  0%   { transform: translateY(100%); }
+  100% { transform: translateY(0);    }
+}
+
+/* Underground flicker */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92%       { opacity: 1; }
+  93%       { opacity: 0; }
+  94%       { opacity: 1; }
+  95%       { opacity: 0; }
+  96%       { opacity: 1; }
+}
+
+/* Heartbeat */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14%  { transform: scale(1.2); }
+  28%  { transform: scale(1); }
+  42%  { transform: scale(1.15); }
+  56%  { transform: scale(1); }
+}
+
+
+/* ============================================================
+   ANIMATION UTILITY CLASSES
+   ============================================================ */
+.animate-bounce-pixel  { animation: bouncePixel 0.6s steps(3) infinite; }
+.animate-float         { animation: float 3s ease-in-out infinite; }
+.animate-spin-coin     { animation: spinCoin 1.2s steps(4) infinite; }
+.animate-blink         { animation: blink 1s steps(1) infinite; }
+.animate-slide-in      { animation: slideIn 0.4s steps(4) forwards; }
+.animate-slide-in-right { animation: slideInRight 0.4s steps(4) forwards; }
+.animate-slide-in-up   { animation: slideInUp 0.4s steps(4) forwards; }
+.animate-fade-in       { animation: fadeIn 0.5s ease forwards; }
+.animate-pop-in        { animation: popIn 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards; }
+.animate-shake         { animation: shake 0.4s steps(4); }
+.animate-star-spin     { animation: starSpin 0.6s linear infinite; }
+.animate-walk-across   { animation: walkAcross 10s linear infinite; }
+.animate-cloud-drift   { animation: cloudDrift 8s linear infinite; }
+.animate-rainbow       { animation: rainbow 1.5s linear infinite; }
+.animate-flicker       { animation: flicker 4s linear infinite; }
+.animate-heartbeat     { animation: heartbeat 1.5s ease-in-out infinite; }
+
+/* Delays */
+.delay-100  { animation-delay: 0.1s; }
+.delay-200  { animation-delay: 0.2s; }
+.delay-300  { animation-delay: 0.3s; }
+.delay-400  { animation-delay: 0.4s; }
+.delay-500  { animation-delay: 0.5s; }
+.delay-700  { animation-delay: 0.7s; }
+.delay-1000 { animation-delay: 1s; }
+.delay-1500 { animation-delay: 1.5s; }
+.delay-2000 { animation-delay: 2s; }
+
+
+/* ============================================================
+   PARALLAX LAYERS
+   ============================================================ */
+.parallax-layer {
+  position: absolute;
+  width: 100%;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.parallax-sky {
+  background: linear-gradient(180deg, #5C94FC 0%, #81B0FF 100%);
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+}
+
+.parallax-clouds {
+  z-index: 1;
+  top: 10%;
+}
+
+.parallax-hills {
+  z-index: 2;
+  bottom: 15%;
+}
+
+.parallax-ground {
+  z-index: 3;
+  bottom: 0;
+  height: 80px;
+}
+
+/* Cloud shape (CSS-only pixel cloud) */
+.pixel-cloud {
+  position: relative;
+  display: inline-block;
+  background: white;
+  border: 3px solid #000;
+  border-radius: 0;
+  padding: 12px 20px;
+  filter: drop-shadow(2px 2px 0px #000);
+}
+.pixel-cloud::before,
+.pixel-cloud::after {
+  content: '';
+  position: absolute;
+  background: white;
+  border: 3px solid #000;
+}
+.pixel-cloud::before {
+  width: 50%;
+  height: 130%;
+  top: -40%;
+  left: 15%;
+  border-radius: 0;
+}
+.pixel-cloud::after {
+  width: 35%;
+  height: 110%;
+  top: -30%;
+  right: 15%;
+  border-radius: 0;
+}
+
+
+/* ============================================================
+   GROUND / TERRAIN
+   ============================================================ */
+.ground-row {
+  height: 48px;
+  background: #C84C0C;
+  border-top: 6px solid #E86020;
+  border-bottom: 4px solid #8B2500;
+  position: relative;
+  width: 100%;
+}
+
+.ground-row::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 31px,
+    rgba(0,0,0,0.2) 31px,
+    rgba(0,0,0,0.2) 32px
+  );
+}
+
+
+/* ============================================================
+   HUD / NAVBAR
+   ============================================================ */
+.hud-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.90);
+  border-bottom: 3px solid var(--mario-yellow);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 20px;
+  backdrop-filter: blur(2px);
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 80px;
+}
+
+.hud-label {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  color: var(--mario-yellow);
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 1px;
+}
+
+.hud-value {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  color: white;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 2px;
+}
+
+.hud-divider {
+  width: 2px;
+  height: 40px;
+  background: rgba(255,255,255,0.2);
+  flex-shrink: 0;
+}
+
+/* Nav World Links */
+.world-link {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 9px;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  padding: 6px 10px;
+  border: 2px solid transparent;
+  transition: all 0.1s steps(2);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.world-link:hover, .world-link.active {
+  color: var(--mario-yellow);
+  border-color: var(--mario-yellow);
+  background: rgba(251,208,0,0.1);
+  text-shadow: 0 0 8px var(--mario-yellow);
+}
+
+
+/* ============================================================
+   LOADING SCREEN
+   ============================================================ */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.loading-bar-container {
+  width: 300px;
+  height: 24px;
+  border: 3px solid white;
+  background: #000;
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  background: var(--mario-red);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.3);
+  animation: loadFill 2.5s steps(20) forwards;
+}
+
+.loading-bar-stripe {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 14px,
+    rgba(0,0,0,0.3) 14px,
+    rgba(0,0,0,0.3) 16px
+  );
+}
+
+
+/* ============================================================
+   SCROLL ANIMATIONS (intersection observer trigger)
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Safety net: if JS is slow, show content after 2s */
+@keyframes revealFallback {
+  to { opacity: 1; transform: none; }
+}
+.reveal, .reveal-left, .reveal-right {
+  animation: revealFallback 0s 2s forwards;
+}
+.reveal.visible, .reveal-left.visible, .reveal-right.visible {
+  animation: none;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .hud-navbar {
+    height: 56px;
+    padding: 0 12px;
+    gap: 12px;
+    overflow-x: auto;
+  }
+  .hud-value { font-size: 11px; }
+  .hud-label { font-size: 6px; }
+  .world-link { font-size: 7px; padding: 4px 6px; }
+}
+
+@media (max-width: 480px) {
+  .hud-navbar { gap: 8px; }
+  .hud-item { min-width: 60px; }
+}
+
+/* ============================================================
+   PHASE 6 — MOBILE RESPONSIVE & PERFORMANCE
+   ============================================================ */
+
+/* ── Respect reduced-motion preference ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:   0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:  0.01ms !important;
+  }
+}
+
+/* ── Desktop-only nav ── */
+.desktop-nav       { display: flex !important; }
+.mobile-menu-btn   { display: none !important; }
+
+@media (max-width: 900px) {
+  .desktop-nav     { display: none !important; }
+  .mobile-menu-btn { display: inline-flex !important; }
+}
+
+/* ── Hi-score chip (only show on large screens) ── */
+#hi-score-chip { display: none !important; }
+@media (min-width: 1100px) {
+  #hi-score-chip { display: flex !important; }
+}
+
+/* ── HUD navbar responsive ── */
+@media (max-width: 640px) {
+  .hud-navbar  { height: 52px; padding: 0 8px; gap: 8px; }
+  .hud-value   { font-size: 10px; }
+  .hud-label   { font-size: 5px; }
+  .hud-divider { display: none; }
+}
+
+/* ── Section world padding on small screens ── */
+@media (max-width: 768px) {
+  .section-world { padding-top: 52px; }
+}
+
+/* ── Cards / grids ── */
+@media (max-width: 560px) {
+  /* Tighten card padding */
+  .card-pixel { padding: 12px !important; }
+
+  /* Single-column everything */
+  [style*="minmax(280px"] {
+    grid-template-columns: 1fr !important;
+  }
+  [style*="minmax(200px"] {
+    grid-template-columns: repeat(2,1fr) !important;
+  }
+}
+
+@media (max-width: 400px) {
+  [style*="minmax(200px"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Ensure font is legible on small screens ── */
+@media (max-width: 480px) {
+  body { font-size: 10px; }
+  h1, h2 { font-size: clamp(14px, 5vw, 24px) !important; }
+  p  { font-size: clamp(6px, 2vw, 8px) !important; }
+}
+
+/* ── Touch targets: min 44 px for tappable elements ── */
+@media (hover: none) {
+  button, a, [role="button"] { min-height: 44px; min-width: 44px; }
+  .world-link { padding: 8px 10px !important; }
+}
+
+/* ── Lazy-load image blur-in ── */
+img.lazy { filter: blur(4px); transition: filter 0.3s ease; }
+img.lazy.loaded { filter: none; }
+
+/* ── Print styles ── */
+@media print {
+  .hud-navbar, footer, .warp-pipe, .question-block { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+}
