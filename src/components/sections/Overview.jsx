@@ -70,7 +70,7 @@ function StatChip({ emoji, label, value, color }) {
       <span style={{ fontSize: 22 }}>{emoji}</span>
       <div>
         <p style={{ fontFamily:"'Press Start 2P', monospace", fontSize:7, color, marginBottom:3 }}>{label}</p>
-        <p style={{ fontFamily:"'Press Start 2P', monospace", fontSize:11, color:'#ffffff', textShadow:'2px 2px 0 #000' }}>{value}</p>
+        <p style={{ fontFamily:"'Press Start 2P', monospace", fontSize:11, color:'#fff', textShadow:'2px 2px 0 #000' }}>{value}</p>
       </div>
     </div>
   )
@@ -82,6 +82,7 @@ export default function Overview() {
   const [jumping,   setJumping]   = useState(false)
   const [showSub,   setShowSub]   = useState(false)
   const [burstTrig, setBurstTrig] = useState(0)
+  const [jumpCount, setJumpCount] = useState(0)   /* 3 jumps → redirect */
 
   useEffect(() => {
     const t = setTimeout(() => setShowSub(true), 600)
@@ -95,6 +96,19 @@ export default function Overview() {
     addCoin()
     setJumping(true)
     setBurstTrig(n => n + 1)
+
+    const newCount = jumpCount + 1
+    setJumpCount(newCount)
+
+    /* On 3rd jump → play stage-clear then redirect */
+    if (newCount >= 3) {
+      play('stageClear')
+      setTimeout(() => {
+        window.open('https://supermarioplay.com/', '_blank')
+        setJumpCount(0)   /* reset so it works again if they come back */
+      }, 600)
+    }
+
     setTimeout(() => setJumping(false), 500)
   }
 
@@ -116,7 +130,7 @@ export default function Overview() {
         {/* World map badge */}
         <div style={{
           background:'rgba(0,0,0,0.8)', border:'3px solid #FBD000',
-          boxShadow:'4px 4px 0 #ffffff', padding:'6px 20px',
+          boxShadow:'4px 4px 0 #000', padding:'6px 20px',
           fontFamily:"'Press Start 2P', monospace", fontSize:9,
           color:'#FBD000', letterSpacing:3,
           animation:'slideIn 0.4s steps(4) forwards',
@@ -154,7 +168,7 @@ export default function Overview() {
           <div
             onClick={handleMarioClick}
             style={{ cursor:'pointer', display:'inline-block' }}
-            title="Click me!"
+            title={`Click ${3 - jumpCount} more time${3 - jumpCount === 1 ? '' : 's'} to warp! 🍄`}
           >
             <MarioSprite size={80} jumping={jumping} />
           </div>
@@ -164,10 +178,14 @@ export default function Overview() {
           <div style={{
             position:'absolute', top:-22, left:'50%', transform:'translateX(-50%)',
             fontFamily:"'Press Start 2P', monospace", fontSize:6,
-            color:'#fff', whiteSpace:'nowrap', textShadow:'1px 1px 0 #000',
+            color: jumpCount > 0 ? '#FBD000' : '#fff',
+            whiteSpace:'nowrap', textShadow:'1px 1px 0 #000',
             animation:'blink 1.2s steps(1) infinite',
           }}>
-            ← CLICK!
+            {jumpCount === 0 && '← CLICK!'}
+            {jumpCount === 1 && '2 MORE!'}
+            {jumpCount === 2 && '1 MORE! 🍄'}
+            {jumpCount >= 3 && '🎮 WARP!'}
           </div>
         </div>
 

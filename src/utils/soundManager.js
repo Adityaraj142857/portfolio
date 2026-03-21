@@ -1,6 +1,9 @@
 /**
  * soundManager.js — Simple HTML Audio (most compatible, zero deps)
  * Files go in: public/sounds/
+ *
+ * Auto-pause: music stops when tab loses focus (user opens resume/external link)
+ *             music resumes when user comes back to the portfolio tab
  */
 
 const _audio = {}
@@ -17,20 +20,34 @@ const FILES = {
   bg:         '/sounds/bg-music.mp3',
 }
 
-/* Pre-create Audio objects */
+/* ── Pre-create Audio objects ── */
 export function initSounds() {
   Object.entries(FILES).forEach(([key, src]) => {
     try {
       const a = new Audio(src)
-      a.volume = key === 'bg' ? 0.25 : 0.55
+      a.volume  = key === 'bg' ? 0.25 : 0.55
       if (key === 'bg') a.loop = true
       a.preload = 'auto'
       _audio[key] = a
     } catch (_) {}
   })
+
+  /* ── Auto-pause / resume when tab visibility changes ── */
+  document.addEventListener('visibilitychange', () => {
+    if (!_enabled) return
+    const bg = _audio['bg']
+    if (!bg) return
+    if (document.hidden) {
+      /* Tab lost focus → user switched to resume/external site → pause */
+      try { bg.pause() } catch (_) {}
+    } else {
+      /* Tab regained focus → user came back → resume */
+      try { bg.play().catch(() => {}) } catch (_) {}
+    }
+  })
 }
 
-/* Play */
+/* ── Play ── */
 export function playSound(name) {
   if (!_enabled) return
   const a = _audio[name]
@@ -39,7 +56,6 @@ export function playSound(name) {
     if (name === 'bg') {
       if (a.paused) a.play().catch(() => {})
     } else {
-      /* Clone for overlapping SFX */
       const clone = a.cloneNode()
       clone.volume = a.volume
       clone.play().catch(() => {})
@@ -47,14 +63,14 @@ export function playSound(name) {
   } catch (_) {}
 }
 
-/* Stop */
+/* ── Stop ── */
 export function stopSound(name) {
   const a = _audio[name]
   if (!a) return
   try { a.pause(); a.currentTime = 0 } catch (_) {}
 }
 
-/* Toggle */
+/* ── Enable / disable all sound ── */
 export function setSoundEnabled(val) {
   _enabled = val
   if (val) {

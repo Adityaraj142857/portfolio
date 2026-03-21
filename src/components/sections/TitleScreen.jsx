@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useGame } from '../../context/GameContext'
+import { setSoundEnabled, initSounds } from '../../utils/soundManager'
 import { useSound } from '../../hooks/useSound'
 import FloatingCoins from '../effects/FloatingCoins'
 
@@ -86,7 +87,7 @@ function TitleHUD({ score }) {
 }
 
 export default function TitleScreen({ onEnter }) {
-  const { score, addScore, addCoin } = useGame()
+  const { score, addScore, addCoin, toggleSound, soundEnabled } = useGame()
   const { play } = useSound()
 
   const [phase,        setPhase]        = useState(0)
@@ -129,6 +130,10 @@ export default function TitleScreen({ onEnter }) {
 
   const handleEnter = useCallback(() => {
     if (exiting) return
+    /* Auto-enable sound on first user interaction (bypasses browser autoplay block) */
+    initSounds()
+    setSoundEnabled(true)
+    if (!soundEnabled) toggleSound()   /* sync the 🔊 button state */
     play('stageClear')
     addScore(500)
     setExiting(true)
@@ -183,9 +188,16 @@ export default function TitleScreen({ onEnter }) {
             textShadow:'3px 3px 0 #8B6000,5px 5px 0 #000,0 0 20px rgba(251,208,0,0.4)',
             letterSpacing:4, margin:0,
           }}>PORTFOLIO</h2>
-        </div>
+          {/* just for experimetn */}
+          <h5 style={{
+            fontFamily:"'Press Start 2P', monospace",
+            fontSize:'clamp(9px,3vw,7px)', color:'#FBD000',
+            textShadow:'0px 0px 0 #8B6000,2px 2px 0 #000,0 0 10px rgba(251,208,0,0.4)',
+            letterSpacing:1, margin:0,
+            }}>{'{ NOT A PLUMBER ANYMORE }'}</h5>
+            </div>
 
-        {/* Divider */}
+            {/* Divider */}
         {phase >= 1 && (
           <div style={{
             width:'clamp(200px,60%,520px)', height:4,
@@ -299,22 +311,20 @@ export default function TitleScreen({ onEnter }) {
         </div>
       )}
 
-      {/* Ground */}
+      {/* Ground — CSS repeating pattern fills any screen width perfectly */}
       <div style={{ position:'relative', zIndex:6, flexShrink:0 }}>
-        <div style={{ display:'flex', height:32, overflow:'hidden', borderTop:'4px solid #000' }}>
-          {Array.from({ length: 40 }).map((_, i) => (
-            <div key={i} style={{
-              width:32, height:32, flexShrink:0,
-              background: i % 5 === 2 ? '#F8B800' : '#C84C0C',
-              borderRight:'2px solid rgba(0,0,0,0.3)', borderBottom:'2px solid rgba(0,0,0,0.3)',
-            }} />
-          ))}
-        </div>
+        <div style={{
+          width:'100%', height:32,
+          borderTop:'4px solid #000',
+          background:'repeating-linear-gradient(90deg, #C84C0C 0px, #C84C0C 64px, #F8B800 64px, #F8B800 96px, #C84C0C 96px, #C84C0C 160px)',
+          backgroundSize:'160px 32px',
+          boxShadow:'inset 0 -2px 0 rgba(0,0,0,0.3)',
+        }} />
         <div style={{ height:28, background:'#8B4513', borderTop:'3px solid #C84C0C' }} />
       </div>
       <div style={{ padding:'8px 0 12px', zIndex:6, textAlign:'center' }}>
         <p style={{ fontFamily:"'Press Start 2P', monospace", fontSize:6, color:'rgba(255,255,255,0.4)' }}>
-          © 2024 {PLAYER_NAME.toUpperCase()} PORTFOLIO. ALL RIGHTS RESERVED.
+          © 2026 {PLAYER_NAME.toUpperCase()} PORTFOLIO. ALL RIGHTS RESERVED.
         </p>
       </div>
 
